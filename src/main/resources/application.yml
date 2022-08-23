@@ -1,0 +1,67 @@
+server:
+  port: 8088
+
+---
+
+spring:
+  profiles: default
+  cloud:
+    gateway:
+      routes:
+        - id: accusation  # 신고관리
+          uri: http://localhost:8089
+          predicates:
+            - Path=/mungta/accusations/**, /mungta/accusation/**, /mungta/admin/accusations/**
+        - id: question    # 문의사항
+          uri: http://question:8088
+          predicates:
+            - Path=/api/question/**, /api/response/**
+#        - id: store-front
+#          uri: http://localhost:8085
+#          predicates:
+#            - Path=/shop/**, /shop/js/
+#        - id: pet-front
+#          uri: http://localhost:8084
+#          predicates:
+#            - Path=/**
+
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOriginPatterns:
+              - "*"
+            allowedMethods:
+              - "*"
+            allowedHeaders:
+              - "*"
+            allowCredentials: true
+
+---
+
+spring:
+  profiles: docker
+  cloud:
+    gateway:
+      routes:
+        - id: accusation  # 신고관리
+          uri: http://accusation:8080
+          predicates:
+            - Path=/mungta/accusations/**, /mungta/accusation/**, /mungta/admin/accusations/**
+        - id: question    # 문의사항
+          uri: http://question:8080
+          predicates:
+            - Path=/api/question/**, /api/response/**
+
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOriginPatterns:
+              - "*"
+            allowedMethods:
+              - "*"
+            allowedHeaders:
+              - "*"
+            allowCredentials: true
+
+server:
+  port: 8080
