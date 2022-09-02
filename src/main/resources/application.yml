@@ -13,7 +13,7 @@ spring:
           predicates:
             - Path=/mungta/accusations/**, /mungta/accusation/**, /mungta/admin/accusations/**
         - id: question    # 문의사항
-          uri: http://question:8088
+          uri: http://question:8080
           predicates:
             - Path=/api/question/**, /api/response/**
 #        - id: store-front
