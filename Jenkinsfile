@@ -4,6 +4,7 @@ node {
       }
       stage('docker build') {
         echo '---------docker build 시작------------'
+        sh './mvnw clean package -DskipTests=true'
         sh 'docker build --build-arg ENVIRONMENT=docker -t  gateway-dev .'
         sh 'docker tag gateway-dev mungtaregistry.azurecr.io/mungta/dev/gateway'
       }
