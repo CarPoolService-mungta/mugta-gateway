@@ -47,8 +47,8 @@ spring:
           uri: http://accusation:8080
           predicates:
             - Path=/mungta/accusations/**, /mungta/accusation/**, /mungta/admin/accusations/**
-        - id: question-service    # 문의사항
-          uri: http://question-service:8080
+        - id: question    # 문의사항
+          uri: http://question:80
           predicates:
             - Path=/api/question/**, /api/response/**
 
