@@ -1,5 +1,5 @@
-#server:
-#  port: 8088
+server:
+  port: 8088
 
 ---
 
@@ -7,15 +7,20 @@ spring:
   profiles: default
   cloud:
     gateway:
+      default-filters:
+        - name: GlobalAuthFilter
       routes:
         - id: accusation  # 신고관리
           uri: http://localhost:8089
           predicates:
             - Path=/mungta/accusations/**, /mungta/accusation/**, /mungta/admin/accusations/**
         - id: question    # 문의사항
-          uri: http://question:8080
+          uri: http://localhost:8080
           predicates:
             - Path=/api/question/**, /api/response/**
+#          filters:
+#            - RewritePath=/api/question/?(?<segment>.*), /$\{segment}
+#            - QuestionAuthFilter
 #        - id: store-front
 #          uri: http://localhost:8085
 #          predicates:
@@ -42,6 +47,12 @@ spring:
   profiles: docker
   cloud:
     gateway:
+      default-filters:
+        - name: GlobalAuthFilter
+          args:
+            baseMessage: "Spring Cloud GateWay Global Filter"
+            preLogger: true
+            postLogger: true
       routes:
         - id: accusation  # 신고관리
           uri: http://accusation:8080
@@ -51,9 +62,9 @@ spring:
           uri: http://question:80
           predicates:
             - Path=/api/question/**, /api/response/**
-          filters:
+#          filters:
 #            - RewritePath=/api/question/?(?<segment>.*), /$\{segment}
-            - QuestionAuthFilter
+#            - QuestionAuthFilter
 
       globalcors:
         corsConfigurations:

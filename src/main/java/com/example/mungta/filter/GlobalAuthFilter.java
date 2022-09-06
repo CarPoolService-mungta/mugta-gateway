@@ -15,12 +15,12 @@ import java.util.List;
 import java.util.Objects;
 
 @Component
-public class QuestionAuthFilter extends AbstractGatewayFilterFactory<QuestionAuthFilter.Config> {
+public class GlobalAuthFilter extends AbstractGatewayFilterFactory<GlobalAuthFilter.Config> {
 
     @Autowired
     private JwtProvider jwtProvider;
 
-    public QuestionAuthFilter() {
+    public GlobalAuthFilter() {
         super(Config.class);
     }
 
@@ -28,6 +28,11 @@ public class QuestionAuthFilter extends AbstractGatewayFilterFactory<QuestionAut
     public GatewayFilter apply(Config config) {
         return ((exchange, chain) -> {
             ServerHttpRequest request = exchange.getRequest(); //Pre Filter
+
+            String path = request.getPath().value();
+            if(path.contains("/auth/")){
+                return chain.filter(exchange);
+            }
 
             // Request Header 에 token 이 존재하지 않을 때
             if(!request.getHeaders().containsKey("Authorization")){
@@ -37,7 +42,6 @@ public class QuestionAuthFilter extends AbstractGatewayFilterFactory<QuestionAut
             // Request Header 에서 token 문자열 받아오기
             List<String> token = request.getHeaders().get("Authorization");
             String tokenString = Objects.requireNonNull(token).get(0);
-
             // 토큰 검증
             if(jwtProvider.isTokenExpired(tokenString)) {
                 return handleUnAuthorized(exchange); // 토큰이 만료되었을 때
@@ -56,4 +60,5 @@ public class QuestionAuthFilter extends AbstractGatewayFilterFactory<QuestionAut
     public static class Config {
 
     }
+
 }
