@@ -51,6 +51,9 @@ spring:
           uri: http://question:80
           predicates:
             - Path=/api/question/**, /api/response/**
+          filters:
+#            - RewritePath=/api/question/?(?<segment>.*), /$\{segment}
+            - QuestionAuthFilter
 
       globalcors:
         corsConfigurations:
