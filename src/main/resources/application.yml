@@ -9,6 +9,7 @@ spring:
     gateway:
       default-filters:
         - name: GlobalAuthFilter
+        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_UNIQUE
       routes:
         - id: accusation  # 신고관리
           uri: http://localhost:8089
@@ -30,16 +31,16 @@ spring:
 #          predicates:
 #            - Path=/**
 
-#      globalcors:
-#        corsConfigurations:
-#          '[/**]':
-#            allowedOriginPatterns:
-#              - "*"
-#            allowedMethods:
-#              - "*"
-#            allowedHeaders:
-#              - "*"
-#            allowCredentials: true
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedOriginPatterns:
+              - "*"
+            allowedMethods:
+              - "*"
+            allowedHeaders:
+              - "*"
 
 ---
 
@@ -49,10 +50,6 @@ spring:
     gateway:
       default-filters:
         - name: GlobalAuthFilter
-          args:
-            baseMessage: "Spring Cloud GateWay Global Filter"
-            preLogger: true
-            postLogger: true
       routes:
         - id: accusation  # 신고관리
           uri: http://accusation:8080
@@ -66,13 +63,13 @@ spring:
 #            - RewritePath=/api/question/?(?<segment>.*), /$\{segment}
 #            - QuestionAuthFilter
 
-#      globalcors:
-#        corsConfigurations:
-#          '[/**]':
-#            allowedOriginPatterns:
-#              - "*"
-#            allowedMethods:
-#              - "*"
-#            allowedHeaders:
-#              - "*"
-#            allowCredentials: true
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedOriginPatterns:
+              - "*"
+            allowedMethods:
+              - "*"
+            allowedHeaders:
+              - "*"

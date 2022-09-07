@@ -1,9 +1,14 @@
 package com.example.mungta.filter;
 
 import com.example.mungta.authentication.JwtProvider;
+import com.example.mungta.config.ApiException;
+import com.example.mungta.config.ApiStatus;
+import com.example.mungta.config.FilterExceptionHandler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.reactive.error.ErrorWebExceptionHandler;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
@@ -24,6 +29,11 @@ public class GlobalAuthFilter extends AbstractGatewayFilterFactory<GlobalAuthFil
         super(Config.class);
     }
 
+    @Bean
+    public ErrorWebExceptionHandler myExceptionHandler() {
+        return new FilterExceptionHandler();
+    }
+
     @Override
     public GatewayFilter apply(Config config) {
         return ((exchange, chain) -> {
@@ -36,7 +46,7 @@ public class GlobalAuthFilter extends AbstractGatewayFilterFactory<GlobalAuthFil
 
             // Request Header 에 token 이 존재하지 않을 때
             if(!request.getHeaders().containsKey("Authorization")){
-                return handleUnAuthorized(exchange); // 401 Error
+                throw new ApiException(ApiStatus.NO_TOKEN);
             }
 
             // Request Header 에서 token 문자열 받아오기
@@ -44,7 +54,7 @@ public class GlobalAuthFilter extends AbstractGatewayFilterFactory<GlobalAuthFil
             String tokenString = Objects.requireNonNull(token).get(0);
             // 토큰 검증
             if(jwtProvider.isTokenExpired(tokenString)) {
-                return handleUnAuthorized(exchange); // 토큰이 만료되었을 때
+                throw new ApiException(ApiStatus.TOKEN_EXPIRED);
             }
 
             return chain.filter(exchange); // 토큰이 유효할 때
