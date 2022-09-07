@@ -66,13 +66,13 @@ spring:
 #            - RewritePath=/api/question/?(?<segment>.*), /$\{segment}
 #            - QuestionAuthFilter
 
-      globalcors:
-        corsConfigurations:
-          '[/**]':
-            allowedOriginPatterns:
-              - "*"
-            allowedMethods:
-              - "*"
-            allowedHeaders:
-              - "*"
-            allowCredentials: true
+#      globalcors:
+#        corsConfigurations:
+#          '[/**]':
+#            allowedOriginPatterns:
+#              - "*"
+#            allowedMethods:
+#              - "*"
+#            allowedHeaders:
+#              - "*"
+#            allowCredentials: true
