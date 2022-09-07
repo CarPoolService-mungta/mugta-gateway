@@ -50,6 +50,7 @@ spring:
     gateway:
       default-filters:
         - name: GlobalAuthFilter
+        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_UNIQUE
       routes:
         - id: accusation  # 신고관리
           uri: http://accusation:8080
