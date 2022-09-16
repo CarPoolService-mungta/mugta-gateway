@@ -19,6 +19,10 @@ spring:
           uri: http://localhost:8080
           predicates:
             - Path=/api/question/**, /api/response/**
+        - id: notice    # 공지사항
+          uri: http://localhost:8081
+          predicates:
+            - Path=/api/notice/**
 #          filters:
 #            - RewritePath=/api/question/?(?<segment>.*), /$\{segment}
 #            - QuestionAuthFilter
