@@ -16,6 +16,10 @@ spring:
           uri: http://question:8088
           predicates:
             - Path=/api/question/**, /api/response/**
+        - id: user        # 사용자관리
+          uri: http://question:8081
+          predicates:
+            - Path=/api/user/**
 #        - id: store-front
 #          uri: http://localhost:8085
 #          predicates:
@@ -51,6 +55,10 @@ spring:
           uri: http://question:8080
           predicates:
             - Path=/api/question/**, /api/response/**
+        - id: user        # 사용자관리
+          uri: http://user:8080
+          predicates:
+            - Path=/api/user/**
 
       globalcors:
         corsConfigurations:
