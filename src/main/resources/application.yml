@@ -14,7 +14,7 @@ spring:
         - id: accusation  # 신고관리
           uri: http://localhost:8089
           predicates:
-            - Path=/mungta/accusations/**, /mungta/accusation/**, /mungta/admin/accusations/**
+            - Path=/api/accusation/**
         - id: question    # 문의사항
           uri: http://localhost:8080
           predicates:
@@ -59,7 +59,7 @@ spring:
         - id: accusation  # 신고관리
           uri: http://accusation:8080
           predicates:
-            - Path=/mungta/accusations/**, /mungta/accusation/**, /mungta/admin/accusations/**
+            - Path=/api/accusation/**
         - id: question    # 문의사항
           uri: http://question:80
           predicates:
