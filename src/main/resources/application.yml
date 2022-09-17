@@ -20,7 +20,7 @@ spring:
           predicates:
             - Path=/api/question/**, /api/response/**
         - id: notice    # 공지사항
-          uri: http://localhost:8081
+          uri: http://localhost:8090
           predicates:
             - Path=/api/notice/**
         - id: user    # 유저

@@ -70,6 +70,13 @@ public class GlobalAuthFilter extends AbstractGatewayFilterFactory<GlobalAuthFil
             if(jwtProvider.isTokenExpired(tokenString)) {
                 throw new ApiException(ApiStatus.ACCESS_TOKEN_EXPIRED);
             }
+            String userType = jwtProvider.getUserTypeFromToken(tokenString);
+            boolean bool1 = path.contains("/admin");
+            boolean bool2 = !jwtProvider.getUserTypeFromToken(tokenString).equals("ADMIN");
+            //admin 기능일 경우
+            if(path.contains("/admin") && !jwtProvider.getUserTypeFromToken(tokenString).equals("ADMIN")){
+                    throw new ApiException(ApiStatus.NOT_ADMIN);
+            }
 
             return chain.filter(exchange.mutate().request(
                     request.mutate()

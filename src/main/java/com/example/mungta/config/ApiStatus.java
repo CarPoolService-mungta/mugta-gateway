@@ -12,6 +12,7 @@ public enum ApiStatus {
     INVALID_TOKEN(HttpStatus.UNAUTHORIZED,-11, "토큰이 유효하지 않습니다."),
     NO_TOKEN(HttpStatus.UNAUTHORIZED,-12, "토큰이 없습니다."),
     REFRESH_TOKEN_EXPIRED(HttpStatus.UNAUTHORIZED,-13, "로그인 후 1주일이 지났습니다. 재로그인 해주세요."),
+    NOT_ADMIN(HttpStatus.UNAUTHORIZED,-13, "관리자 권한이 없습니다."),
     ;
     private final HttpStatus httpStatus;
     private final Integer code;
