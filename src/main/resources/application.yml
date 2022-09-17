@@ -7,29 +7,23 @@ spring:
   profiles: default
   cloud:
     gateway:
-      default-filters:
-        - name: GlobalAuthFilter
-        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_UNIQUE
       routes:
         - id: accusation  # 신고관리
           uri: http://localhost:8089
           predicates:
-            - Path=/api/accusation/**
+            - Path=/mungta/accusations/**, /mungta/accusation/**, /mungta/admin/accusations/**
         - id: question    # 문의사항
-          uri: http://localhost:8080
+          uri: http://question:8088
           predicates:
             - Path=/api/question/**, /api/response/**
-        - id: notice    # 공지사항
-          uri: http://localhost:8090
-          predicates:
-            - Path=/api/notice/**
-        - id: user    # 유저
+        - id: user        # 사용자관리
           uri: http://localhost:8081
           predicates:
             - Path=/api/user/**
-#          filters:
-#            - RewritePath=/api/question/?(?<segment>.*), /$\{segment}
-#            - QuestionAuthFilter
+        - id: party-management        # 사용자관리
+          uri: http://localhost:8084
+          predicates:
+            - Path=/api/party-management/partyInfos/**
 #        - id: store-front
 #          uri: http://localhost:8085
 #          predicates:
@@ -38,16 +32,17 @@ spring:
 #          uri: http://localhost:8084
 #          predicates:
 #            - Path=/**
+
       globalcors:
         corsConfigurations:
           '[/**]':
-            allowedOrigins: "*"
             allowedOriginPatterns:
               - "*"
             allowedMethods:
               - "*"
             allowedHeaders:
               - "*"
+            allowCredentials: true
 
 ---
 
@@ -55,37 +50,30 @@ spring:
   profiles: docker
   cloud:
     gateway:
-      default-filters:
-        - name: GlobalAuthFilter
-        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_UNIQUE
       routes:
         - id: accusation  # 신고관리
           uri: http://accusation:8080
           predicates:
-            - Path=/api/accusation/**
+            - Path=/mungta/accusations/**, /mungta/accusation/**, /mungta/admin/accusations/**
         - id: question    # 문의사항
-          uri: http://question:80
+          uri: http://question:8080
           predicates:
             - Path=/api/question/**, /api/response/**
-        - id: notice    # 공지사항
-          uri: http://notice:80
-          predicates:
-            - Path=/api/notice/**
-        - id: user    # 유저
+        - id: user        # 사용자관리
           uri: http://user:8080
           predicates:
             - Path=/api/user/**
-#          filters:
-#            - RewritePath=/api/question/?(?<segment>.*), /$\{segment}
-#            - QuestionAuthFilter
 
       globalcors:
         corsConfigurations:
           '[/**]':
-            allowedOrigins: "*"
             allowedOriginPatterns:
               - "*"
             allowedMethods:
               - "*"
             allowedHeaders:
               - "*"
+            allowCredentials: true
+
+server:
+  port: 8080
