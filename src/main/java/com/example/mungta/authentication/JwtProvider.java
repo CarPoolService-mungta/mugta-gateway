@@ -45,6 +45,30 @@ public class JwtProvider {
         return getClaimFromToken(token, claimMap->claimMap.get("exp")).asLong();
     }
 
+    public String getUserIdFromToken(String token) throws JWTVerificationException{
+        return getClaimFromToken(token, claimMap->claimMap.get("userId")).asString();
+    }
+
+    public String getNameFromToken(String token) throws JWTVerificationException{
+        return getClaimFromToken(token, claimMap->claimMap.get("name")).asString();
+    }
+
+    public String getEmailFromToken(String token) throws JWTVerificationException{
+        return getClaimFromToken(token, claimMap->claimMap.get("email")).asString();
+    }
+
+    public String getTeamFromToken(String token) throws JWTVerificationException{
+        return getClaimFromToken(token, claimMap->claimMap.get("team")).asString();
+    }
+
+    public String getUserTypeFromToken(String token) throws JWTVerificationException{
+        return getClaimFromToken(token, claimMap->claimMap.get("userType")).asString();
+    }
+
+    public String getDriverYnTypeFromToken(String token) throws JWTVerificationException{
+        return getClaimFromToken(token, claimMap->claimMap.get("driverYn")).asString();
+    }
+
     public Boolean isTokenExpired(String token) {
         try{
             final Date expiration = new Date(getExpirationDateFromToken(token)*1000L);

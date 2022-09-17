@@ -57,7 +57,16 @@ public class GlobalAuthFilter extends AbstractGatewayFilterFactory<GlobalAuthFil
                 throw new ApiException(ApiStatus.TOKEN_EXPIRED);
             }
 
-            return chain.filter(exchange); // 토큰이 유효할 때
+            return chain.filter(exchange.mutate().request(
+                    request.mutate()
+                            .header("userId", jwtProvider.getUserIdFromToken(tokenString))
+                            .header("name", jwtProvider.getNameFromToken(tokenString))
+                            .header("email", jwtProvider.getEmailFromToken(tokenString))
+                            .header("team", jwtProvider.getTeamFromToken(tokenString))
+                            .header("userType", jwtProvider.getUserTypeFromToken(tokenString))
+                            .header("driverYn", jwtProvider.getDriverYnTypeFromToken(tokenString))
+                            .build()
+            ).build()); // 토큰이 유효할 때
         });
     }
 
