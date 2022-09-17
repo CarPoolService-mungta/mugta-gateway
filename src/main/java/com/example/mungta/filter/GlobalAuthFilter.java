@@ -43,7 +43,21 @@ public class GlobalAuthFilter extends AbstractGatewayFilterFactory<GlobalAuthFil
             if(path.contains("/auth/")){
                 return chain.filter(exchange);
             }
+            //Refresh의 경우
+            if(path.contains("/token-refresh")){
+                List<String> token = request.getHeaders().get("refreshToken");
+                String tokenString = Objects.requireNonNull(token).get(0);
 
+                if(jwtProvider.isTokenExpired(tokenString)) {
+                    throw new ApiException(ApiStatus.REFRESH_TOKEN_EXPIRED);
+                }
+
+                return chain.filter(exchange.mutate().request(
+                        request.mutate()
+                                .header("userId", jwtProvider.getUserIdFromToken(tokenString))
+                                .build()
+                ).build());
+            }
             // Request Header 에 token 이 존재하지 않을 때
             if(!request.getHeaders().containsKey("Authorization")){
                 throw new ApiException(ApiStatus.NO_TOKEN);
@@ -54,7 +68,7 @@ public class GlobalAuthFilter extends AbstractGatewayFilterFactory<GlobalAuthFil
             String tokenString = Objects.requireNonNull(token).get(0);
             // 토큰 검증
             if(jwtProvider.isTokenExpired(tokenString)) {
-                throw new ApiException(ApiStatus.TOKEN_EXPIRED);
+                throw new ApiException(ApiStatus.ACCESS_TOKEN_EXPIRED);
             }
 
             return chain.filter(exchange.mutate().request(
