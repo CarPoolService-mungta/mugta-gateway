@@ -72,7 +72,7 @@ spring:
           predicates:
             - Path=/api/notice/**
         - id: user    # 유저
-          uri: http://user:8081
+          uri: http://user:8080
           predicates:
             - Path=/api/user/**
 #          filters:
