@@ -7,6 +7,9 @@ spring:
   profiles: default
   cloud:
     gateway:
+      default-filters:
+        - name: GlobalAuthFilter
+        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_UNIQUE
       routes:
         - id: accusation  # 신고관리
           uri: http://localhost:8089
@@ -20,7 +23,11 @@ spring:
           uri: http://localhost:8081
           predicates:
             - Path=/api/user/**
-        - id: party-management        # 사용자관리
+        - id: notice    # 공지사항
+          uri: http://localhost:8090
+          predicates:
+            - Path=/api/notice/**
+        - id: party-management        # 파티관리
           uri: http://localhost:8084
           predicates:
             - Path=/api/party-management/partyInfos/**
@@ -36,13 +43,13 @@ spring:
       globalcors:
         corsConfigurations:
           '[/**]':
+            allowedOrigins: "*"
             allowedOriginPatterns:
               - "*"
             allowedMethods:
               - "*"
             allowedHeaders:
               - "*"
-            allowCredentials: true
 
 ---
 
@@ -50,6 +57,9 @@ spring:
   profiles: docker
   cloud:
     gateway:
+      default-filters:
+        - name: GlobalAuthFilter
+        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_UNIQUE
       routes:
         - id: accusation  # 신고관리
           uri: http://accusation:8080
@@ -59,6 +69,10 @@ spring:
           uri: http://question:8080
           predicates:
             - Path=/api/question/**, /api/response/**
+        - id: notice    # 공지사항
+          uri: http://notice:80
+          predicates:
+            - Path=/api/notice/**
         - id: user        # 사용자관리
           uri: http://user:8080
           predicates:
@@ -67,13 +81,13 @@ spring:
       globalcors:
         corsConfigurations:
           '[/**]':
+            allowedOrigins: "*"
             allowedOriginPatterns:
               - "*"
             allowedMethods:
               - "*"
             allowedHeaders:
               - "*"
-            allowCredentials: true
 
 server:
   port: 8080
