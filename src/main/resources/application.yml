@@ -31,6 +31,10 @@ spring:
           uri: http://localhost:8084
           predicates:
             - Path=/api/party-management/partyInfos/**
+        - id: party-matching        # 파티매칭
+          uri: http://localhost:8085
+          predicates:
+            - Path=/api/match/**, /api/match/partymembers/**
 #        - id: store-front
 #          uri: http://localhost:8085
 #          predicates:
