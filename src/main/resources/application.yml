@@ -16,7 +16,7 @@ spring:
           predicates:
             - Path=/api/accusation/**
         - id: question    # 문의사항
-          uri: http://question:8088
+          uri: http://localhost:8087
           predicates:
             - Path=/api/question/**, /api/response/**
         - id: user        # 사용자관리
@@ -35,6 +35,10 @@ spring:
           uri: http://localhost:8085
           predicates:
             - Path=/api/match/**, /api/match/partymembers/**
+        - id: review        # 리뷰
+          uri: http://localhost:8086
+          predicates:
+            - Path=/api/review/**
 #        - id: store-front
 #          uri: http://localhost:8085
 #          predicates:
@@ -73,14 +77,26 @@ spring:
           uri: http://question:8080
           predicates:
             - Path=/api/question/**, /api/response/**
-        - id: notice    # 공지사항
-          uri: http://notice:80
-          predicates:
-            - Path=/api/notice/**
         - id: user        # 사용자관리
           uri: http://user:8080
           predicates:
             - Path=/api/user/**
+        - id: notice    # 공지사항
+          uri: http://notice:8080
+          predicates:
+            - Path=/api/notice/**
+        - id: party-management        # 파티관리
+          uri: http://localhost:8080
+          predicates:
+            - Path=/api/party-management/partyInfos/**
+        - id: matching        # 파티매칭
+          uri: http://matching:8080
+          predicates:
+            - Path=/api/match/**, /api/match/partymembers/**
+        - id: review        # 리뷰
+          uri: http://review:8080
+          predicates:
+            - Path=/api/review/**
 
       globalcors:
         corsConfigurations:
