@@ -56,6 +56,15 @@ management:
       exposure:
         include:
           - "gateway"
+          - "health"
   endpoint:
     gateway:
+      enabled: true
+    health:
+      probes:
+        enabled: true
+  health:
+    livenessState:
+      enabled: true
+    readinessState:
       enabled: true
