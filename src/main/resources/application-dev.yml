@@ -1,11 +1,6 @@
-server:
-  port: 8088
-
----
-
 spring:
   profiles:
-    activate: local
+    activate: dev
   cloud:
     gateway:
       default-filters:
@@ -13,41 +8,33 @@ spring:
         - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_UNIQUE
       routes:
         - id: accusation  # 신고관리
-          uri: http://localhost:8089
+          uri: http://accusation:8080
           predicates:
             - Path=/api/accusation/**
         - id: question    # 문의사항
-          uri: http://localhost:8087
+          uri: http://question:8080
           predicates:
             - Path=/api/question/**, /api/response/**
         - id: user        # 사용자관리
-          uri: http://localhost:8081
+          uri: http://user:8080
           predicates:
             - Path=/api/user/**
         - id: notice    # 공지사항
-          uri: http://localhost:8090
+          uri: http://notice:8080
           predicates:
             - Path=/api/notice/**
         - id: party-management        # 파티관리
-          uri: http://localhost:8084
+          uri: http://localhost:8080
           predicates:
             - Path=/api/party-management/partyInfos/**
-        - id: party-matching        # 파티매칭
-          uri: http://localhost:8085
+        - id: matching        # 파티매칭
+          uri: http://matching:8080
           predicates:
             - Path=/api/match/**, /api/match/partymembers/**
         - id: review        # 리뷰
-          uri: http://localhost:8086
+          uri: http://review:8080
           predicates:
             - Path=/api/review/**
-#        - id: store-front
-#          uri: http://localhost:8085
-#          predicates:
-#            - Path=/shop/**, /shop/js/
-#        - id: pet-front
-#          uri: http://localhost:8084
-#          predicates:
-#            - Path=/**
 
       globalcors:
         corsConfigurations:
@@ -60,5 +47,5 @@ spring:
             allowedHeaders:
               - "*"
 
----
-
+server:
+  port: 8080
