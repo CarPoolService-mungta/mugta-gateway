@@ -1,5 +1,6 @@
 server:
   port: 8088
+  max-http-header-size: 65536
 
 ---
 
