@@ -9,7 +9,7 @@ public class WebServerConfig implements WebServerFactoryCustomizer<NettyReactive
 
     // The default value is 8192 (8K) but may result in 413 when header is too lager.
     // Enlarge the header size to 16384 (16K) which is enough for most cases.
-    private static final int MAX_HEADER_SIZE = 16384;
+    private static final int MAX_HEADER_SIZE = 40000;
 
     public void customize(NettyReactiveWebServerFactory factory) {
         factory.addServerCustomizers(server ->
