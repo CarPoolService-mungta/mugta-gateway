@@ -7,12 +7,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class WebServerConfig implements WebServerFactoryCustomizer<NettyReactiveWebServerFactory> {
 
-    // The default value is 8192 (8K) but may result in 413 when header is too lager.
-    // Enlarge the header size to 16384 (16K) which is enough for most cases.
-    private static final int MAX_HEADER_SIZE = 40000;
+    // The default value is 8192 (8K) but may result in 413 when header is too lager.    
+    @Value("${server.max-http-header-size:65536}")
+    private int maxHeaderSize;
 
-    public void customize(NettyReactiveWebServerFactory factory) {
-        factory.addServerCustomizers(server ->
-                server.httpRequestDecoder(decoder -> decoder.maxHeaderSize(MAX_HEADER_SIZE)));
+    public void customize(NettyReactiveWebServerFactory container) {
+        container.addServerCustomizers(builder -> builder.maxHeaderSize(maxHeaderSize));
     }
+
 }
