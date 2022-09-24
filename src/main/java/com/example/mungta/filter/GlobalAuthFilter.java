@@ -38,7 +38,7 @@ public class GlobalAuthFilter extends AbstractGatewayFilterFactory<GlobalAuthFil
     public GatewayFilter apply(Config config) {
         return ((exchange, chain) -> {
             ServerHttpRequest request = exchange.getRequest(); //Pre Filter
-
+            System.out.println("headers:"+ request.getHeaders().toString());
             String path = request.getPath().value();
             if(path.contains("/auth/")){
                 return chain.filter(exchange);
