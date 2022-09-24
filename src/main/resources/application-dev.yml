@@ -29,7 +29,7 @@ spring:
           predicates:
             - Path=/api/notice/**
         - id: party-management        # 파티관리
-          uri: http://localhost:8080
+          uri: http://partymanagement:8080
           predicates:
             - Path=/api/party-management/partyInfos/**
         - id: matching        # 파티매칭
