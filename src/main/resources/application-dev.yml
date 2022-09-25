@@ -51,6 +51,13 @@ spring:
               - "*"
             allowedHeaders:
               - "*"
+  application:
+    name: gateway
+    sleuth:
+      sampler:
+        probability: 1.0
+    zipkin:
+      base-url: http://52.226.205.33:9411
 
 management:
   endpoints:
